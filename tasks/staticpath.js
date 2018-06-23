@@ -10,7 +10,7 @@ module.exports = function (grunt) {
 		var options = this.options({
             imagepath:"/images/",
             imagepathPublic:"//node-img.b0.upaiyun.com/wmzy-pc/images/"
-        }
+        });
 
         console.log("options>>>",options)
 
