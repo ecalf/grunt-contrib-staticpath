@@ -12,24 +12,18 @@ module.exports = function (grunt) {
             imagepathPublic:"//node-img.b0.upaiyun.com/wmzy-pc/images/"
         });
 
-        console.log("options>>>",options)
+        //console.log("options>>>",options);
+        //console.log("this.files>>>",this.files)
 
-		function replaceCSSImagesPath(cssPath,cssData){
+		function replaceCSSImagesPath(cssData){
 			var oldPath = options.imagepath;
 			var newPath = options.imagepathPublic;
 			
-			var reg = new RegExp('url\\(\\s*'+oldPath,'gi');
-
-			cssData = cssData.replace(reg,'url('+newPath);
-
-			/*
-			var regImagecss = new RegExp('background(?:-image)?\\s*:[^;]*?url\\((["\\\']?)'+path +'[^\\)]+\\1\\)[^};]*;?','ig');
-			var cssList = cssData.match(regImagecss);
-			if(cssList && cssList.length){//repeat cssList.length times
-				cssList.forEach(function(css){
-					cssData = cssData.replace(oldUrl,subFilePath);
-				});
-			}*/
+			var reg = new RegExp('url\\(\\s*([\\\'\\\"])?'+oldPath,'gi');
+			//console.log("todo reg:",reg)
+			cssData = cssData.replace(reg,'url($1'+newPath);
+			//console.log("done cssData.replace");
+			//console.log('indexOf ',newPath,': ',cssData.indexOf(newPath));
 			return cssData
 		}
 
@@ -38,7 +32,7 @@ module.exports = function (grunt) {
 
 		function donePathReplace(cssData, destCSS){
 			grunt.file.write(destCSS, cssData);
-			grunt.log.writelns(('Done! [donePathReplace Created] -> ' + destCSS));
+			grunt.log.writelns(('Done! [Replace publicPath of image, Created] -> ' + destCSS));
 		}
 
 		function staticPathIterator(file, callback){
@@ -47,7 +41,7 @@ module.exports = function (grunt) {
 
 			var destCSS = file.dest;
 			var cssData = grunt.file.read(src);
-			var newCssData = replaceCSSImagesPath(path.dirname(src),cssData);
+			var newCssData = replaceCSSImagesPath(cssData);
 
 			donePathReplace(newCssData, destCSS);
 			callback(null);

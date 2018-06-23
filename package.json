@@ -1,6 +1,6 @@
 {
   "name": "grunt-contrib-staticpath",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A grunt plugin to help front engineer replacing public static path of css.",
   "main": "tasks/staticpath.js",
   "scripts": {
